@@ -4,11 +4,24 @@ version = "0.1.0"
 description = "FRC 2053s robot code for 2025"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "robotpy>=2025.3.2.0",
+]
 
 [dependency-groups]
 dev = [
     "pre-commit>=4.2.0",
     "pyright>=1.1.398",
     "ruff>=0.11.2",
+]
+
+[tool.robotpy]
+robotpy_version = "2025.3.2.0"
+robotpy_extras = [
+    "apriltag",
+    "commands2",
+    "cscore",
+    "pathplannerlib",
+    "phoenix6",
+    "sim",
 ]
