@@ -131,6 +131,31 @@ nodeenv==1.9.1 \
     # via
     #   pre-commit
     #   pyright
+numpy==2.2.1 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' \
+    --hash=sha256:08ef779aed40dbc52729d6ffe7dd51df85796a702afbf68a4f4e41fafdc8bda5 \
+    --hash=sha256:164a829b6aacf79ca47ba4814b130c4020b202522a93d7bff2202bfb33b61c60 \
+    --hash=sha256:26c9c4382b19fcfbbed3238a14abf7ff223890ea1936b8890f058e7ba35e8d71 \
+    --hash=sha256:27f5cdf9f493b35f7e41e8368e7d7b4bbafaf9660cba53fb21d2cd174ec09631 \
+    --hash=sha256:3ecc47cd7f6ea0336042be87d9e7da378e5c7e9b3c8ad0f7c966f714fc10d821 \
+    --hash=sha256:45681fd7128c8ad1c379f0ca0776a8b0c6583d2f69889ddac01559dfe4390918 \
+    --hash=sha256:4dfda918a13cc4f81e9118dea249e192ab167a0bb1966272d5503e39234d694e \
+    --hash=sha256:526fc406ab991a340744aad7e25251dd47a6720a685fa3331e5c59fef5282a59 \
+    --hash=sha256:53c09385ff0b72ba79d8715683c1168c12e0b6e84fb0372e97553d1ea91efe51 \
+    --hash=sha256:5b6c390bfaef8c45a260554888966618328d30e72173697e5cabe6b285fb2348 \
+    --hash=sha256:676f4eebf6b2d430300f1f4f4c2461685f8269f94c89698d832cdf9277f30b84 \
+    --hash=sha256:733585f9f4b62e9b3528dd1070ec4f52b8acf64215b60a845fa13ebd73cd0712 \
+    --hash=sha256:89b16a18e7bba224ce5114db863e7029803c179979e1af6ad6a6b11f70545008 \
+    --hash=sha256:93cf4e045bae74c90ca833cba583c14b62cb4ba2cba0abd2b141ab52548247e2 \
+    --hash=sha256:9ad014faa93dbb52c80d8f4d3dcf855865c876c9660cb9bd7553843dd03a4b1e \
+    --hash=sha256:bff7d8ec20f5f42607599f9994770fa65d76edca264a87b5e4ea5629bce12268 \
+    --hash=sha256:c1ad395cf254c4fbb5b2132fee391f361a6e8c1adbd28f2cd8e79308a615fe9d \
+    --hash=sha256:f1d09e520217618e76396377c81fba6f290d5f926f50c35f3a5f72b01a0da780 \
+    --hash=sha256:f3eac17d9ec51be534685ba877b6ab5edc3ab7ec95c8f163e5d7b39859524716 \
+    --hash=sha256:f419290bc8968a46c4933158c91a0012b7a99bb2e465d5ef5293879742f8797e \
+    --hash=sha256:f74e6fdeb9a265624ec3a3918430205dff1df7e95a230779746a6af78bc615af
+    # via
+    #   robotpy
+    #   robotpy-pathplannerlib
 packaging==24.2 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
     --hash=sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759 \
     --hash=sha256:c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f
@@ -141,6 +166,13 @@ paramiko==3.5.1 ; platform_machine != 'aarch64' and platform_machine != 'armv7l'
     --hash=sha256:43b9a0501fc2b5e70680388d9346cf252cfb7d00b0667c39e80eb43a408b8f61 \
     --hash=sha256:b2c665bc45b2b215bd7d7f039901b14b067da00f3a11e6640995fd58f2664822
     # via robotpy-installer
+phoenix6==25.3.2 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' \
+    --hash=sha256:57b259a1b2f366346fcbda9f4e30aff7731599895557e076046bb5b39eeb419e \
+    --hash=sha256:611b92c48ab5fc8ecf62d82fee1efc2a0cffddd6f50afe7fca262c328dcad61d \
+    --hash=sha256:a7948d3c479a482b069890b03f7c6dc21f914e5d7295f10d0834efe640e08ef1 \
+    --hash=sha256:b1fd14f866ab9dd820ff4ff9879f95c0004f13ac564c2673589a24816172a544 \
+    --hash=sha256:de197815b0a8a9b7e9145922f06c0ddfedcb9e4b073a4f2369342a9a5c702477
+    # via robotpy
 pint==0.24.4 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
     --hash=sha256:35275439b574837a6cd3020a5a4a73645eb125ce4152a73a2f126bf164b91b80 \
     --hash=sha256:aa54926c8772159fcf65f82cc0d34de6768c151b32ad1deb0331291c38fe7659
@@ -193,7 +225,9 @@ pyntcore==2025.3.2.0 \
     --hash=sha256:eb435354497c47a6430a8a17472ba549ad8a4c33739274fcde5263c69f4fb7e1
     # via
     #   robotpy
+    #   robotpy-cscore
     #   robotpy-halsim-gui
+    #   robotpy-pathplannerlib
     #   wpilib
 pyright==1.1.398 \
     --hash=sha256:0a70bfd007d9ea7de1cf9740e1ad1a40a122592cfe22a3f6791b06162ad08753 \
@@ -224,6 +258,12 @@ robotpy==2025.3.2.0 \
     --hash=sha256:c67192cf968c482510ec0088c5a6973852ece41409fbb37d3ed16a8e694c9ff4 \
     --hash=sha256:cf9c8a116ca94b0dcd3746f488b018e51ddb813e8bc067eeb792e49404f1a379
     # via robot-reefscape
+robotpy-apriltag==2025.3.2.0 \
+    --hash=sha256:1b8ba08fbd8ee331d69c78b01bfbd28864267a6e3f1da4507b66aea434575186 \
+    --hash=sha256:5ba176b299c8036046e26500a7012627b5096ad295573ed6d569bd2bbfb1ef0f \
+    --hash=sha256:8677d1f68ae0452a45c85ad837c1b4a586b0cd018ae8b006f77914ad5fd8d20b \
+    --hash=sha256:d07a7621702eeaf6ec4277a17cd8cc9e79bfda0c647ff8d76b12dc3b077e11bc
+    # via robotpy
 robotpy-cli==2024.0.0 \
     --hash=sha256:9284035fa67058b33593b1846e13501eda0861fb9d9adce4bd01b101c9f1f26e \
     --hash=sha256:e6519f06856eb0a7ef5f25a57bfc8dcb20635cef84706fb37c0b602d59e33f39
@@ -232,6 +272,18 @@ robotpy-cli==2024.0.0 \
     #   robotpy
     #   robotpy-installer
     #   wpilib
+robotpy-commands-v2==2025.3.2 \
+    --hash=sha256:35379703d213b9b8b617715a2fb00acd7e5432884507340cb022acd9d6359b43 \
+    --hash=sha256:b1bb4e0344870ef00f74f28f093a1c50544227fd5747b879aca5e9e5dca5a4e9
+    # via
+    #   robotpy
+    #   robotpy-pathplannerlib
+robotpy-cscore==2025.3.2.0 \
+    --hash=sha256:0e262925e4df8441b9740308e7ad4e50277536d2f1084c7aeb0e3c98c29656bd \
+    --hash=sha256:478b896e8e8cd8dbad874745031cb478829110c682d33228bbc293c3324c70e5 \
+    --hash=sha256:b9d19537df5639c02a0e47cdb67947699a7e7e7e3a873488ec2a591f5f4ffae8 \
+    --hash=sha256:fd3a4419050851b773eec26edb11fef216f2d64458fe46e8b336eebdd4ca4f8e
+    # via robotpy
 robotpy-hal==2025.3.2.0 \
     --hash=sha256:3311f94e7af19883c15e21e12f32d96d6b4e87211e760197e43c77c7ba8678d9 \
     --hash=sha256:5f1d5498d43fe9ca950eea967180d3fb048e4fbb55f7bec52f41200440e32f87 \
@@ -239,17 +291,40 @@ robotpy-hal==2025.3.2.0 \
     --hash=sha256:edca0a32acaeded8aecca92164c9506c974ef15ba5722bcabafdc0e589805496
     # via
     #   robotpy
+    #   robotpy-halsim-ds-socket
     #   robotpy-halsim-gui
+    #   robotpy-halsim-ws
+    #   robotpy-pathplannerlib
     #   wpilib
+robotpy-halsim-ds-socket==2025.3.2.0 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
+    --hash=sha256:184f54f02f95e97148ce78454f4dba00a0a95b35aa08eda8f1986ed00a433351 \
+    --hash=sha256:59b273eda9fa023bec67137647c065561ec5348e7c5087b6ce28dc2ee4d29e22 \
+    --hash=sha256:6edda46dbc175c76357f8244ce1a4cd560bebc2bed1734e90cd95f44ee8623d3 \
+    --hash=sha256:b7f3fa2d5b06a1d55719045feef84dce1690bb450a9a5870c2c1eee8162a469a
+    # via robotpy
 robotpy-halsim-gui==2025.3.2.0 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
     --hash=sha256:0d29dd9fdd22a260c25d64145f9d3e32ef5fa0225d2b83ac0ad1f68345087dca \
     --hash=sha256:1720ecffdd980ca94c5c88f27cd0a682c890468a43b87ce79b8e20306b083ac4 \
     --hash=sha256:746117663e04f1f3e95cea1cd8c99513b07ca580d47d029889445a0df949b00c \
     --hash=sha256:f9db83eaf6f69295afd14e55391ce9581d4fcd5d89be910739ac95d7c9ae159e
     # via robotpy
+robotpy-halsim-ws==2025.3.2.0 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
+    --hash=sha256:64b40f8bf3b27b66d775361be662ad6e79eb0d5cb9b8be1105cb1ac818f31696 \
+    --hash=sha256:a37935095f9017172f368f95baab54ef73c4aace4b1702579f707f43d650326b \
+    --hash=sha256:e12bc7016dc4a798a5dc35e999e7e022b9b98f98291ea29a4d58f834b2129afb \
+    --hash=sha256:f11b1b7137fe0e081a6e696d42b79f49f8e9daf7fa142e89aef4f85c93415731
+    # via robotpy
 robotpy-installer==2025.1.0 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
     --hash=sha256:413390492d297e0a2ca6cbe9decfce0ad8b2aab19e45931ad40a8c891c8b57ae \
     --hash=sha256:ac3e2d2c6941fded892067a6dd7852564f90b7f025dd812519fcd7f8a5c7690e
+    # via robotpy
+robotpy-opencv==0.1.0 ; platform_machine == 'roborio' \
+    --hash=sha256:966a4495031c211825d4a32d8e4bfa0f267e849f65b83b08620dfc673bf3f9be \
+    --hash=sha256:c6421c68e8e50470d49cbc84b0975986e5a195a10f18b7049969c2f94e321a41
+    # via robotpy
+robotpy-pathplannerlib==2025.2.6 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' \
+    --hash=sha256:147cb7be94ba38de72b800c5b1f998c1b4bc293a23b3b4a22529c9943846e7ce \
+    --hash=sha256:f1d7572daf93c97e3b8dbdae368d57835735c5d389acaf7dbc0b50417bd6bc3b
     # via robotpy
 robotpy-wpilib-utilities==2025.0.0 \
     --hash=sha256:11959e0b891f8db41f676c1570c93f51c1f703f565e0f223d743058c50824867 \
@@ -262,7 +337,9 @@ robotpy-wpimath==2025.3.2.0 \
     --hash=sha256:e64a990f1ababa660090619d0ecc36f95654eec9df8e5559846da9987d0dad37
     # via
     #   robotpy
+    #   robotpy-apriltag
     #   robotpy-halsim-gui
+    #   robotpy-pathplannerlib
     #   wpilib
 robotpy-wpinet==2025.3.2.0 \
     --hash=sha256:5febdfc4b250aa55dc674749818757a3848c8bcfcb069c4b51ef15fcfd8d8699 \
@@ -272,6 +349,9 @@ robotpy-wpinet==2025.3.2.0 \
     # via
     #   pyntcore
     #   robotpy
+    #   robotpy-cscore
+    #   robotpy-halsim-ds-socket
+    #   robotpy-halsim-ws
 robotpy-wpiutil==2025.3.2.0 \
     --hash=sha256:60597c726268e2c5445bb6fd6ebe1a45b1f6caae52f44993f0446693e3de5a1d \
     --hash=sha256:7afa6d25822f6e12e60de5390e7bfe1680d13398a60b38756fb107637347d10c \
@@ -280,8 +360,11 @@ robotpy-wpiutil==2025.3.2.0 \
     # via
     #   pyntcore
     #   robotpy
+    #   robotpy-apriltag
+    #   robotpy-cscore
     #   robotpy-hal
     #   robotpy-halsim-gui
+    #   robotpy-pathplannerlib
     #   robotpy-wpimath
     #   robotpy-wpinet
     #   wpilib
@@ -304,6 +387,10 @@ ruff==0.11.2 \
     --hash=sha256:c69e20ea49e973f3afec2c06376eb56045709f0212615c1adb0eda35e8a4e477 \
     --hash=sha256:ec47591497d5a1050175bdf4e1a4e6272cddff7da88a2ad595e1e326041d8d94 \
     --hash=sha256:ecf20854cc73f42171eedb66f006a43d0a21bfb98a2523a809931cda569552d9
+setuptools==78.1.0 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' \
+    --hash=sha256:18fd474d4a82a5f83dac888df697af65afa82dec7323d09c3e37d1f14288da54 \
+    --hash=sha256:3e386e96793c8702ae83d17b853fb93d3e09ef82ec62722e61da5cd22376dcd8
+    # via phoenix6
 tomli==2.2.1 ; platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'roborio' \
     --hash=sha256:286f0ca2ffeeb5b9bd4fcc8d6c330534323ec51b2f52da063b11c502da16f30c \
     --hash=sha256:9316dc65bed1684c9a98ee68759ceaed29d229e985297003e494aa825ebb0281 \
@@ -332,6 +419,7 @@ typing-extensions==4.13.0 \
     #   flexparser
     #   pint
     #   pyright
+    #   robotpy-commands-v2
 virtualenv==20.29.3 \
     --hash=sha256:3e3d00f5807e83b234dfb6122bf37cfadf4be216c53a49ac059d02414f819170 \
     --hash=sha256:95e39403fcf3940ac45bc717597dba16110b74506131845d9b687d5e73d947ac
@@ -344,4 +432,5 @@ wpilib==2025.3.2.0 \
     # via
     #   pyfrc
     #   robotpy
+    #   robotpy-commands-v2
     #   robotpy-wpilib-utilities

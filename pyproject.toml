@@ -5,7 +5,7 @@ description = "FRC 2053s robot code for 2025"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "robotpy>=2025.3.2.0",
+    "robotpy[apriltag,commands2,cscore,pathplannerlib,phoenix6,sim]>=2025.3.2.0",
 ]
 
 [dependency-groups]
@@ -17,11 +17,3 @@ dev = [
 
 [tool.robotpy]
 robotpy_version = "2025.3.2.0"
-robotpy_extras = [
-    "apriltag",
-    "commands2",
-    "cscore",
-    "pathplannerlib",
-    "phoenix6",
-    "sim",
-]
