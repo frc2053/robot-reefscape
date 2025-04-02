@@ -7,17 +7,22 @@
 
 import commands2
 import typing
+from ntcore import DoublePublisher, NetworkTableInstance
 
 import wpilib
 
 from robotcontainer import RobotContainer
 from phoenix6.signal_logger import SignalLogger
-from wpilib import DataLogManager, DriverStation
+from phoenix6 import units
+from wpilib import DataLogManager, DriverStation, Timer
 from wpinet import WebServer
 
 
 class MyRobot(commands2.TimedCommandRobot):
     autonomousCommand: typing.Optional[commands2.Command] = None
+    loopTimer: wpilib.Timer = None
+    previousTime: units.second = 0
+    loopTimePub: DoublePublisher
 
     def robotInit(self) -> None:
         SignalLogger.enable_auto_logging(True)
@@ -26,10 +31,23 @@ class MyRobot(commands2.TimedCommandRobot):
         DriverStation.startDataLog(DataLogManager.getLog(), True)
         WebServer.getInstance().start(5800, wpilib.getDeployDirectory())
 
+        self.loopTimePub = (
+            NetworkTableInstance.getDefault()
+            .getTable("Timing")
+            .getDoubleTopic("RobotPeriodicLoopRateMs")
+            .publish()
+        )
+
         self.container = RobotContainer()
+        self.loopTimer = Timer()
+        self.loopTimer.start()
 
     def robotPeriodic(self) -> None:
+        currentTime = self.loopTimer.getTimestamp()
         commands2.CommandScheduler.getInstance().run()
+        loopTime = currentTime - self.previousTime
+        self.loopTimePub.set(loopTime * 1000)
+        self.previousTime = currentTime
 
     def disabledInit(self) -> None:
         pass
