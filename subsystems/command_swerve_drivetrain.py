@@ -209,8 +209,8 @@ class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):  # type: igno
                     and hasattr(req, "rotational_rate")
                 ):
                     wanted_chassis_speeds = ChassisSpeeds(
-                        req.velocity_x,
-                        req.velocity_y,
+                        req.velocity_x,  # type: ignore
+                        req.velocity_y,  # type: ignore
                         req.rotational_rate,  # type: ignore
                     )
             self._wanted_chassis_speeds.set(wanted_chassis_speeds)
