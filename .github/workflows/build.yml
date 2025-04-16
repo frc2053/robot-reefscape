@@ -31,15 +31,15 @@ jobs:
     
     - name: Check formatting
       run: |
-        ruff format --check .
+        uv run ruff format --check .
     
     - name: Lint with Ruff
       run: |
-        ruff check .
+        uv run ruff check .
     
     - name: Type check with mypy
       run: |
-        pyright 
+        uv run pyright 
     
     - name: Test with pytest
       run: |
