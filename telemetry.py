@@ -65,15 +65,16 @@ class Telemetry:
         module_states_array = []
         module_targets_array = []
         for i in range(4):
-            module_states_array.append(state.module_states[i].angle.radians())
-            module_states_array.append(state.module_states[i].speed)
-            module_targets_array.append(state.module_targets[i].angle.radians())
-            module_targets_array.append(state.module_targets[i].speed)
+            module_states_array.append(state.module_states[i].angle.radians())  # type: ignore
+            module_states_array.append(state.module_states[i].speed)  # type: ignore
+            module_targets_array.append(state.module_targets[i].angle.radians())  # type: ignore
+            module_targets_array.append(state.module_targets[i].speed)  # type: ignore
 
         SignalLogger.write_double_array("DriveState/Pose", pose_array)
-        SignalLogger.write_double_array("DriveState/ModuleStates", module_states_array)
+        SignalLogger.write_double_array("DriveState/ModuleStates", module_states_array)  # type: ignore
         SignalLogger.write_double_array(
-            "DriveState/ModuleTargets", module_targets_array
+            "DriveState/ModuleTargets",
+            module_targets_array,  # type: ignore
         )
         SignalLogger.write_double(
             "DriveState/OdometryPeriod", state.odometry_period, "seconds"
@@ -81,4 +82,4 @@ class Telemetry:
 
         # Telemeterize the pose to a Field2d
         self._field_type_pub.set("Field2d")
-        self._field_pub.set(pose_array)
+        self._field_pub.set(pose_array)  # type: ignore

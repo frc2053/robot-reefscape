@@ -86,9 +86,9 @@ class TunerConstants:
     )
 
     _constants_creator: swerve.SwerveModuleConstantsFactory[
-        configs.TalonFXConfiguration,
-        configs.TalonFXConfiguration,
-        configs.CANcoderConfiguration,
+        configs.TalonFXConfiguration,  # type: ignore
+        configs.TalonFXConfiguration,  # type: ignore
+        configs.CANcoderConfiguration,  # type: ignore
     ] = (
         swerve.SwerveModuleConstantsFactory()
         .with_drive_motor_gear_ratio(_drive_gear_ratio)
@@ -104,7 +104,7 @@ class TunerConstants:
         .with_drive_motor_type(_drive_motor_type)
         .with_steer_motor_type(_steer_motor_type)
         .with_feedback_source(_steer_feedback_type)
-        .with_drive_motor_initial_configs(_drive_initial_configs)
+        .with_drive_motor_initial_configs(_drive_initial_configs)  # type: ignore
         .with_steer_motor_initial_configs(_steer_initial_configs)
         .with_encoder_initial_configs(_encoder_initial_configs)
         .with_steer_inertia(_steer_inertia)
@@ -203,16 +203,16 @@ class TunerConstants:
     )
 
     @classmethod
-    def create_drivetrain(clazz) -> CommandSwerveDrivetrain:
+    def create_drivetrain(cls) -> CommandSwerveDrivetrain:
         return CommandSwerveDrivetrain(
             hardware.TalonFX,
             hardware.TalonFX,
             hardware.CANcoder,
-            clazz.drivetrain_constants,
+            cls.drivetrain_constants,
             [
-                clazz.front_left,
-                clazz.front_right,
-                clazz.back_left,
-                clazz.back_right,
+                cls.front_left,
+                cls.front_right,
+                cls.back_left,
+                cls.back_right,
             ],
         )
