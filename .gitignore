@@ -15,4 +15,5 @@ wheels/
 simgui-ds.json
 simgui.json
 networktables.json
+simgui-windows.json
 ctre_sim

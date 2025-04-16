@@ -13,11 +13,12 @@
             "/DriveState/ModuleTargets/0/angle",
             "/PathPlanner",
             "/SmartDashboard",
-            "/DriveState/Pose/rotation"
+            "/DriveState/Pose/rotation",
+            "/DriveState/WantedChassisSpeeds"
           ]
         },
         "tabs": {
-          "selected": 6,
+          "selected": 2,
           "tabs": [
             {
               "type": 0,
@@ -230,11 +231,31 @@
                   },
                   {
                     "type": "stepped",
+                    "logKey": "NT:/DriveState/WantedChassisSpeeds/vx",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#80588e",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
                     "logKey": "NT:/DriveState/Speeds/vy",
                     "logType": "Number",
                     "visible": true,
                     "options": {
                       "color": "#af2437",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/DriveState/WantedChassisSpeeds/vy",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e48b32",
                       "size": "normal"
                     }
                   }
@@ -247,6 +268,16 @@
                     "visible": true,
                     "options": {
                       "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/DriveState/WantedChassisSpeeds/omega",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#c0b487",
                       "size": "normal"
                     }
                   }
@@ -267,7 +298,7 @@
               },
               "controllerUUID": "mu325ykda2jhd3ru6ye3ejns9gz22dpp",
               "renderer": null,
-              "controlsHeight": 200
+              "controlsHeight": 324
             },
             {
               "type": 2,
@@ -469,7 +500,7 @@
                 "cameraIndex": -1,
                 "orbitFov": 50,
                 "cameraPosition": [
-                  -6.708039613263023,
+                  -6.7080396132630185,
                   3.897072393741594,
                   -7.2180465326425605
                 ],

@@ -1,6 +1,7 @@
 from commands2 import Command, Subsystem
 from commands2.sysid import SysIdRoutine
 import math
+from ntcore import NetworkTableInstance
 from pathplannerlib.auto import AutoBuilder, RobotConfig
 from pathplannerlib.controller import PIDConstants, PPHolonomicDriveController
 from phoenix6 import SignalLogger, swerve, units, utils
@@ -8,6 +9,7 @@ from typing import Callable, overload
 from wpilib import DriverStation, Notifier, RobotController
 from wpilib.sysid import SysIdRoutineLog
 from wpimath.geometry import Pose2d, Rotation2d
+from wpimath.kinematics import ChassisSpeeds
 
 
 class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):
@@ -85,6 +87,13 @@ class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):
         self._steer_characterization = swerve.requests.SysIdSwerveSteerGains()
         self._rotation_characterization = swerve.requests.SysIdSwerveRotation()
 
+        self._drive_state_table = NetworkTableInstance.getDefault().getTable(
+            "DriveState"
+        )
+        self._wanted_chassis_speeds = self._drive_state_table.getStructTopic(
+            "WantedChassisSpeeds", ChassisSpeeds
+        ).publish()
+
         self._sys_id_routine_translation = SysIdRoutine(
             SysIdRoutine.Config(
                 stepVoltage=4.0,
@@ -143,21 +152,21 @@ class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):
             self._start_sim_thread()
         self._configure_auto_builder()
 
+    def apply_pp_speeds(self, speeds, feedforwards):
+        self._wanted_chassis_speeds.set(speeds)
+        self.set_control(
+            self._apply_robot_speeds.with_speeds(speeds)
+            .with_wheel_force_feedforwards_x(feedforwards.robotRelativeForcesXNewtons)
+            .with_wheel_force_feedforwards_y(feedforwards.robotRelativeForcesYNewtons)
+        )
+
     def _configure_auto_builder(self):
         config = RobotConfig.fromGUISettings()
         AutoBuilder.configure(
             lambda: self.get_state().pose,
             self.reset_pose,
             lambda: self.get_state().speeds,
-            lambda speeds, feedforwards: self.set_control(
-                self._apply_robot_speeds.with_speeds(speeds)
-                .with_wheel_force_feedforwards_x(
-                    feedforwards.robotRelativeForcesXNewtons
-                )
-                .with_wheel_force_feedforwards_y(
-                    feedforwards.robotRelativeForcesYNewtons
-                )
-            ),
+            lambda speeds, feedforwards: self.apply_pp_speeds(speeds, feedforwards),
             PPHolonomicDriveController(
                 PIDConstants(10.0, 0.0, 0.0),
                 PIDConstants(7.0, 0.0, 0.0),
@@ -171,7 +180,37 @@ class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):
     def apply_request(
         self, request: Callable[[], swerve.requests.SwerveRequest]
     ) -> Command:
-        return self.run(lambda: self.set_control(request()))
+        def applyAndLog():
+            req = request()
+            wanted_chassis_speeds = ChassisSpeeds()
+            if isinstance(
+                req,
+                (
+                    swerve.requests.FieldCentric,
+                    swerve.requests.FieldCentricFacingAngle,
+                    swerve.requests.ApplyFieldSpeeds,
+                ),
+            ):
+                wanted_chassis_speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                    req.velocity_x,
+                    req.velocity_y,
+                    req.rotational_rate,
+                    self.get_state().pose.rotation()
+                    + self.get_operator_forward_direction(),
+                )
+            else:
+                if (
+                    hasattr(req, "velocity_x")
+                    and hasattr(req, "velocity_y")
+                    and hasattr(req, "rotational_rate")
+                ):
+                    wanted_chassis_speeds = ChassisSpeeds(
+                        req.velocity_x, req.velocity_y, req.rotational_rate
+                    )
+            self._wanted_chassis_speeds.set(wanted_chassis_speeds)
+            self.set_control(req)
+
+        return self.run(applyAndLog)
 
     def sys_id_quasistatic(self, direction: SysIdRoutine.Direction) -> Command:
         return self._sys_id_routine_to_apply.quasistatic(direction)
