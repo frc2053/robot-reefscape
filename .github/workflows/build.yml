@@ -1,8 +1,12 @@
-.githubname: Robot Reefscape CI
+name: Robot Reefscape CI
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   test:
