@@ -2,8 +2,10 @@ from commands2 import Command, Subsystem
 from commands2.sysid import SysIdRoutine
 import math
 from ntcore import NetworkTableInstance
-from pathplannerlib.auto import AutoBuilder, RobotConfig
-from pathplannerlib.controller import PIDConstants, PPHolonomicDriveController
+from pathplannerlib.config import RobotConfig, PIDConstants
+from pathplannerlib.auto import AutoBuilder
+from pathplannerlib.controller import PPHolonomicDriveController
+from pathplannerlib.util import DriveFeedforwards
 from phoenix6 import SignalLogger, swerve, units, utils
 from typing import Callable, overload
 from wpilib import DriverStation, Notifier, RobotController
@@ -152,7 +154,9 @@ class CommandSwerveDrivetrain(Subsystem, swerve.SwerveDrivetrain):
             self._start_sim_thread()
         self._configure_auto_builder()
 
-    def apply_pp_speeds(self, speeds, feedforwards):
+    def apply_pp_speeds(
+        self, speeds: ChassisSpeeds, feedforwards: DriveFeedforwards
+    ) -> None:
         self._wanted_chassis_speeds.set(speeds)
         self.set_control(
             self._apply_robot_speeds.with_speeds(speeds)

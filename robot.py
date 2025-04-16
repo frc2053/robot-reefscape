@@ -20,7 +20,7 @@ from wpinet import WebServer
 
 class MyRobot(commands2.TimedCommandRobot):
     autonomousCommand: typing.Optional[commands2.Command] = None
-    loopTimer: wpilib.Timer = None
+    loopTimer: wpilib.Timer
     previousTime: units.second = 0
     loopTimePub: DoublePublisher
 
