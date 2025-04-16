@@ -6,7 +6,6 @@
 
 import commands2
 import commands2.button
-import commands2.cmd
 from commands2.sysid import SysIdRoutine
 
 from generated.tuner_constants import TunerConstants
