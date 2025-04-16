@@ -6,75 +6,75 @@
     "GLOBAL": {
       "font": "Proggy Dotted",
       "fps": "120",
-      "height": "720",
-      "maximized": "0",
+      "height": "1494",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1280",
-      "xpos": "384",
-      "ypos": "203"
+      "width": "2560",
+      "xpos": "0",
+      "ypos": "34"
     }
   },
   "Window": {
     "###/Pose": {
       "Collapsed": "0",
-      "Pos": "200,200",
+      "Pos": "1604,585",
       "Size": "874,505"
     },
     "###/SmartDashboard/Auto Mode": {
       "Collapsed": "0",
-      "Pos": "175,61",
-      "Size": "254,54"
+      "Pos": "471,56",
+      "Size": "361,66"
     },
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "5,540",
-      "Size": "175,184"
+      "Pos": "223,421",
+      "Size": "388,176"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,465",
-      "Size": "796,217"
+      "Pos": "1220,1154",
+      "Size": "1156,287"
     },
     "###Keyboard 0 Settings": {
       "Collapsed": "0",
-      "Pos": "490,30",
+      "Pos": "184,826",
       "Size": "300,560"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "250,277",
-      "Size": "750,185"
+      "Pos": "1633,241",
+      "Size": "750,286"
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
-      "Pos": "250,130",
+      "Pos": "1633,79",
       "Size": "750,145"
     },
     "###Other Devices": {
       "Collapsed": "0",
-      "Pos": "1025,20",
+      "Pos": "1261,50",
       "Size": "250,695"
     },
     "###PWM Outputs": {
       "Collapsed": "0",
-      "Pos": "910,20",
-      "Size": "133,48"
+      "Pos": "884,190",
+      "Size": "183,60"
     },
     "###RoboRIO": {
       "Collapsed": "0",
       "Pos": "232,58",
-      "Size": "119,146"
+      "Size": "163,182"
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "Pos": "5,350",
-      "Size": "192,218"
+      "Pos": "756,645",
+      "Size": "273,290"
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "5,150",
-      "Size": "135,173"
+      "Pos": "24,355",
+      "Size": "188,215"
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -83,8 +83,8 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "5,20",
-      "Size": "99,116"
+      "Pos": "13,96",
+      "Size": "137,152"
     }
   }
 }
