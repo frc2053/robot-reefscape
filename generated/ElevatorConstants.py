@@ -1,0 +1,4 @@
+import math
+
+FRONT_MOTOR = 15
+BACK_MOTOR = 16

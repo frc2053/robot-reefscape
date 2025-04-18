@@ -1,38 +1,69 @@
-from constants import ElevatorConstants as consts
+from generated import ElevatorConstants
 from phoenix6 import StatusCode, controls
 from phoenix6.controls import VoltageOut
-from phoenix6 import BaseStatusSignal
+from phoenix6 import BaseStatusSignal, StatusSignal
 from phoenix6.configs import Configs
 from phoenix6.signals import SpnEnums
+from phoenix6.hardware import TalonFX
 import math
 import wpilib #Maybe?
 from wpilib import DataLogManager, RobotBase, RobotController
 from wpimath.controller import ElevatorFeedforward, PIDController
-from wpimath.trajectory import ExponentialProfile, TrapezoidProfile
+from wpimath.trajectory import TrapezoidProfile
 from commands2 import CommandPtr, Commands
 from commands2.button import Trigger
-from str import GainTypes
+import ctre
 
 class Elevator:
-    def __init__(self,display):
+    def __init__(self, display):
         self.display = display #First grap the display of the thingy
-        self.ConfigureMotors 
-        self.ConfigureControlSignals
-        self.OptimiveBusSignals
+        self.configure_motors 
+        self.configure_control_signals
+        self.optimize_bus_singals
+
         self._trapSetpoint = TrapezoidProfile.State
         self._trapGoal = TrapezoidProfile.State
         self._elevatorProfile = TrapezoidProfile(TrapezoidProfile.Constraints(3.048, 6.096))
         self._elevatorVoltageSetter = VoltageOut(0)
         self._elevatorPID = PIDController
+        self._followerSetter = VoltageOut(0)
+        self._coastSetter = VoltageOut(0)
 
-        self.frontMotor.SetPosition(0) #might have to do 0* length.turn???  idk
-        self.backMotor.SetPosition(0)
+        self.backMotor = TalonFX(ElevatorConstants.BACK_MOTOR, "*")
+        self.frontMotor = TalonFX(ElevatorConstants.FRONT_MOTOR, "*")
+
+
+        self.frontMotor.set_position(0)
+        self.backMotor.set_position(0)
 
         #finished the settings stuff
 
+    def configure_motors(self):
+        pass
+
+    def optimize_bus_singals(self):
+        BUS_UPDATE_FREQ = 250
+        self.frontPositionSig = self.frontMotor.get_position()
+        self.frontVelocitySig = self.frontMotor.get_velocity()
+        self.frontVoltageSig = self.frontMotor.get_motor_voltage()
+        self.backPositionSig = self.backMotor.get_position()
+        self.backVelocitySig = self.backMotor.get_velocity()
+        self.backVoltageSig = self.backMotor.get_motor_voltage()
+        freqSetterStatus = BaseStatusSignal.set_update_frequency_for_all(BUS_UPDATE_FREQ, self.frontPositionSig, self.frontVelocitySig, self.frontVoltageSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
+
+        DataLogManager.log(f"Set bus signal frequencies for elevator. Result was: {freqSetterStatus.name}")
+
+
+        pass
+    
+    def configure_control_signals(self):
+        self._elevatorVoltageSetter.update_freq_hz = 250
+        self._followerSetter.update_freq_hz = 250
+        self._coastSetter.update_freq_hz = 250
+
     
     def periodic_update(self):
-        status = BaseStatusSignal.wait_for_all(self.FrontvoltagesSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
+        status = BaseStatusSignal.wait_for_all(self.frontVoltagesSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
 
         if not (status.IsOK()):
             DataLogManager.Log(f"Error updating elevator positions! Error was: {status.GetName()}")
@@ -59,7 +90,7 @@ class Elevator:
 
         ff = ElevatorFeedforward(kS, currentKg, vA, kA) #grabbing instance? idk if needed cause idk why the str import not working :/
         def GetElevatorVel():
-            avgVel = ConvertEncVelToHeightVel(self.frontVelocitySig.GetValue() + self.backVelocitySig.GetValue()) / 2.0 * NUM_OF_STAGES
+            avgVel = ConvertEncVelToHeightVel(self.frontVelocitySig.get_value() + self.backVelocitySig.get_value()) / 2.0 * NUM_OF_STAGES
             return avgVel
 
         def ConvertEncVelToHeightVel(radialVel):
@@ -67,22 +98,22 @@ class Elevator:
             return ret
         
         ffToSend = 0
-        ffToSend = ff.Calculate(GetElevatorVel(), next.velocity)
+        ffToSend = ff.calculate(GetElevatorVel(), next.velocity)
 
         elevatorPid = wpilib.PIDController(kP,kI, kD)
         
-        pidOutput = elevatorPid.Calculate(self.currentHeight.value(), next.position.value())
+        pidOutput = elevatorPid.calculate(self.currentHeight.value(), next.position.value())
 
 
         if not (isCharacterizing):
-            self.frontMotor.SetControl(self._elevatorVoltageSetter.with_output(ffToSend + pidOutput).with_enable_foc(True))
+            self.frontMotor.set_control(self._elevatorVoltageSetter.with_output(ffToSend + pidOutput).with_enable_foc(True))
         else:
             pass
 
         height_tolerance = 0.5 #inches
 
         isAtGoalHeight = False
-        isAtGoalHeigh = abs(self.trapGoal.position - self.currentHeight) < height_tolerance
+        isAtGoalHeight = abs(self.trapGoal.position - self.currentHeight) < height_tolerance
         
         def set_elevator_height(new_height):
             pass
