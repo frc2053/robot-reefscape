@@ -7,7 +7,7 @@ from phoenix6.signals import SpnEnums
 from phoenix6.hardware import TalonFX
 import math
 import wpilib #Maybe?
-from wpilib import DataLogManager, RobotBase, RobotController
+from wpilib import DataLogManager, RobotBase, RobotController, Alert
 from wpimath.controller import ElevatorFeedforward, PIDController
 from wpimath.trajectory import TrapezoidProfile
 from commands2 import CommandPtr, Commands
@@ -53,8 +53,23 @@ class Elevator:
 
         DataLogManager.log(f"Set bus signal frequencies for elevator. Result was: {freqSetterStatus.name}")
 
+        signalFrequenceAlert = Alert("Bus signal frequency issue tsk tsk sigh", Alert.AlertType.kError)
 
-        pass
+
+        signalFrequenceAlert.set(not freqSetterStatus.is_ok())
+
+        optimizeFrontResult = self.frontMotor.optimize_bus_utilization()
+        DataLogManager.log(f"Optimized bus signals for front elevator motor. Result was: {optimizeFrontResult.name}")
+
+        optimizeBackResult = self.backMotor.optimize_bus_utilization()
+        DataLogManager.log(f"Optimized bus signals for back elevator motor. Result was: {optimizeBackResult.name}")
+
+        optiFrontAlert = Alert("Front elevator motor bus optimization failed womp womp", Alert.AlertType.kError)
+        optiBackAlert = Alert("Back elevator motor bus optimization failed lol big sad lowkeylucky", Alert.AlertType.kError)
+
+
+        optiFrontAlert.set(not optimizeFrontResult.is_ok())
+        optiBackAlert.set(not optimizeBackResult.is_ok())
     
     def configure_control_signals(self):
         self._elevatorVoltageSetter.update_freq_hz = 250
@@ -63,7 +78,7 @@ class Elevator:
 
     
     def periodic_update(self):
-        status = BaseStatusSignal.wait_for_all(self.frontVoltagesSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
+        status = BaseStatusSignal.wait_for_all(2.0/ElevatorConstants.BUS_UPDATE_FREQ, self.frontPositionSig, self.frontVelocitySig, self.frontVoltageSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
 
         if not (status.IsOK()):
             DataLogManager.Log(f"Error updating elevator positions! Error was: {status.GetName()}")
