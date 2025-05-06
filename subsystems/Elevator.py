@@ -1,3 +1,4 @@
+from wpimath.units import meters_per_second, turns
 from generated import ElevatorConstants
 from phoenix6 import StatusCode, controls
 from phoenix6.controls import VoltageOut
@@ -21,8 +22,8 @@ class Elevator:
         self.configure_control_signals
         self.optimize_bus_singals
 
-        self._trapSetpoint = TrapezoidProfile.State
-        self._trapGoal = TrapezoidProfile.State
+        self._trapSetpoint = TrapezoidProfile.State(0.0,0.0)
+        self._trapGoal = TrapezoidProfile.State(0.0,0.0)
         self._elevatorProfile = TrapezoidProfile(TrapezoidProfile.Constraints(3.048, 6.096))
         self._elevatorVoltageSetter = VoltageOut(0)
         self._elevatorPID = PIDController
@@ -65,7 +66,7 @@ class Elevator:
         DataLogManager.log(f"Optimized bus signals for back elevator motor. Result was: {optimizeBackResult.name}")
 
         optiFrontAlert = Alert("Front elevator motor bus optimization failed womp womp", Alert.AlertType.kError)
-        optiBackAlert = Alert("Back elevator motor bus optimization failed lol big sad lowkeylucky", Alert.AlertType.kError)
+        optiBackAlert = Alert("Back elevator motor bus optimization failed lol big sad lowkeyunlucky", Alert.AlertType.kError)
 
 
         optiFrontAlert.set(not optimizeFrontResult.is_ok())
@@ -80,15 +81,15 @@ class Elevator:
     def periodic_update(self):
         status = BaseStatusSignal.wait_for_all(2.0/ElevatorConstants.BUS_UPDATE_FREQ, self.frontPositionSig, self.frontVelocitySig, self.frontVoltageSig, self.backPositionSig, self.backVelocitySig, self.backVoltageSig)
 
-        if not (status.IsOK()):
-            DataLogManager.Log(f"Error updating elevator positions! Error was: {status.GetName()}")
+        if not (status.is_ok()):
+            DataLogManager.log(f"Error updating elevator positions! Error was: {status.name()}")
         
-        self.backMotor.SetControl(self.followerSetter)
+        self.backMotor.set_control(self._followerSetter)
 
-        self.currentHeight = self.GetHeight()
+        self.currentHeight = self.get_height()
 
         #continued on line 59
-        next = self._elevatorProfile.Calculate(0.02, self._trapSetpoint, self._trapGoal) #I have no idea what a trapezoid profile is so this is it for now lol
+        next = self._elevatorProfile.calculate(0.02, self._trapSetpoint, self._trapGoal)
         #line 61? idk
 
         currentKg = 120000
@@ -104,8 +105,8 @@ class Elevator:
         PULLEY_DIAM = 1
 
         ff = ElevatorFeedforward(kS, currentKg, vA, kA) #grabbing instance? idk if needed cause idk why the str import not working :/
-        def GetElevatorVel():
-            avgVel = ConvertEncVelToHeightVel(self.frontVelocitySig.get_value() + self.backVelocitySig.get_value()) / 2.0 * NUM_OF_STAGES
+        def get_elevator_vel():
+            avgVel: meters_per_second = ConvertEncVelToHeightVel(self.frontVelocitySig.get_value() + self.backVelocitySig.get_value()) / 2.0 * NUM_OF_STAGES
             return avgVel
 
         def ConvertEncVelToHeightVel(radialVel):
@@ -113,7 +114,7 @@ class Elevator:
             return ret
         
         ffToSend = 0
-        ffToSend = ff.calculate(GetElevatorVel(), next.velocity)
+        ffToSend = ff.calculate(get_elevator_vel(), next.velocity)
 
         elevatorPid = wpilib.PIDController(kP,kI, kD)
         
@@ -135,11 +136,14 @@ class Elevator:
 
         self.display(set_elevator_height(self.currentHeight))
 
-        UpdateNTEntries()
+        UpdateNTEntries(self)
 
         trapSetpoint = next
     
-    def UpdateNTEntries():
+    def get_height(self):
+        pass
+    
+    def UpdateNTEntries(self):
         pass
 
 
